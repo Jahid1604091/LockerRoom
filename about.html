@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Slider</title>
+    <!-- Include Font Awesome for chevron icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        height: 100%;
+      }
+      .slider {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #433131;
+        padding: 20px;
+      }
+      .slider .left {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        border: 1px solid #737373;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+      .slider .left img {
+        max-height: 80%;
+        max-width: 100%;
+        object-fit: contain;
+        border: 5px solid #737373;
+      }
+      .slider .right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: start;
+        color: white;
+        padding-left: 60px; /* Added padding for gap */
+      }
+      .slider .right h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+      .slider .right p {
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      .slider-buttons {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        /* margin: 20px auto; */
+      }
+      .slider-buttons button {
+        padding: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        height: 40px;
+        width: 40px;
+        border: none;
+        background-color: #f05a28;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .slider-buttons button:hover {
+        background-color: #d04e24;
+      }
+      .slider-progress-container {
+        width: 100%;
+        position: absolute;
+        bottom: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .slider-progress {
+        width: 95%; /* Adjust the width as needed */
+        height: 6px;
+        background-color: #737373;
+        margin: 0 auto;
+        position: relative;
+      }
+      .progress {
+        height: 100%;
+        width: 0%;
+        background-color: #f05a28;
+        transition: width 0.3s ease;
+      }
+      .bullets {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      .bullet {
+        width: 15px;
+        height: 15px;
+        background-color: #737373;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .bullet.active {
+        background-color: #f05a28;
+      }
+
+      @media (max-width: 767px) {
+        .slider-buttons {
+          margin: 20px auto;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .slider {
+          flex-direction: row;
+          padding: 40px;
+        }
+        .slider .left {
+          margin-bottom: 0;
+          margin-right: 60px; /* Added margin for gap */
+        }
+        .slider .right {
+          padding-left: 0; /* Reset padding for larger screens */
+        }
+        .slider .right h2 {
+          font-size: 32px;
+        }
+        .slider .right p {
+          font-size: 18px;
+        }
+        .slider-buttons button {
+          height: 50px;
+          width: 50px;
+        }
+      }
+      @media (min-width: 1024px) {
+        .slider .right h2 {
+          font-size: 48px;
+        }
+        .slider .right p {
+          font-size: 20px;
+        }
+        .slider-progress {
+          height: 8px;
+        }
+        .bullet {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider">
+      <div class="left" id="slider-image"></div>
+      <div class="right">
+        <h2 id="slider-title"></h2>
+        <p id="slider-text"></p>
+        <div class="slider-buttons">
+          <button onclick="prevSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button onclick="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="slider-progress-container">
+        <div class="slider-progress">
+          <div class="progress"></div>
+          <div class="bullets">
+            <span class="bullet"></span>
+            <span class="bullet"></span>
+            <span class="bullet"></span>
+            <span class="bullet"></span>
+            <span class="bullet"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const slides = [
+        {
+          image: "/images/bodymap-back.png",
+          title:
+            "Designed by World Cup-winning Wallabies Physiotherapist, Cameron Lillicrap 1",
+          text: `From the field to the treatment table, Lockeroom products are created for and road-tested by some of Australia's most elite athletes.
+
+Cameron has over 35 years of clinical experience in private practice. He's a rehabilitation specialist, managing occupational health programs at Qantas, Smith Snack foods, Oakey Creek Coal Mine and AMCOR.`,
+        },
+        {
+          image: "/images/bodymap-front.png",
+          title:
+            "Designed by World Cup-winning Wallabies Physiotherapist, Cameron Lillicrap 2",
+          text: `From the field to the treatment table, Lockeroom products are created for and road-tested by some of Australia's most elite athletes.
+
+Cameron has over 35 years of clinical experience in private practice. He's a rehabilitation specialist, managing occupational health programs at Qantas, Smith Snack foods, Oakey Creek Coal Mine and AMCOR.`,
+        },
+        {
+          image: "/images/home-1.png",
+          title:
+            "Designed by World Cup-winning Wallabies Physiotherapist, Cameron Lillicrap 3",
+          text: `From the field to the treatment table, Lockeroom products are created for and road-tested by some of Australia's most elite athletes.
+
+Cameron has over 35 years of clinical experience in private practice. He's a rehabilitation specialist, managing occupational health programs at Qantas, Smith Snack foods, Oakey Creek Coal Mine and AMCOR.`,
+        },
+      ];
+
+      let currentSlide = 0;
+
+      function showSlide(index) {
+        const slide = slides[index];
+        document.getElementById(
+          "slider-image"
+        ).style.backgroundImage = `url(${slide.image})`;
+        document.getElementById("slider-title").innerText = slide.title;
+        document.getElementById("slider-text").innerText = slide.text;
+
+        const progress = ((index + 1) / slides.length) * 100;
+        document.querySelector(".progress").style.width = `${progress}%`;
+
+        // Update active bullet
+        const bullets = document.querySelectorAll(".bullet");
+        bullets.forEach((bullet, i) => {
+          if (i === index) {
+            bullet.classList.add("active");
+          } else {
+            bullet.classList.remove("active");
+          }
+        });
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+      }
+
+      // Initialize the first slide
+      showSlide(currentSlide);
+    </script>
+  </body>
+</html>

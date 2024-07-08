@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ Section</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+
+      .faq-container {
+        padding: 20px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .faq-column {
+        width: 30%;
+        margin-bottom: 20px;
+      }
+
+      .faq-question {
+        cursor: pointer;
+        padding: 15px;
+        margin: 0;
+        font-size: 26px;
+        background-color: #393939;
+        border: 1px solid #393939;
+        color: #fff;
+        border-radius: 5px;
+        text-align: left;
+        transition: background-color 0.3s ease;
+        outline: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 330px;
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding: 0 15px;
+        background-color: #393939;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 20px;
+        margin-top: -20px;
+        width: 330px;
+
+      }
+
+      .faq-answer p {
+        margin: 10px 0;
+      }
+
+      .faq-item {
+        margin-bottom: 40px;
+      }
+
+      .faq-item.active .faq-answer {
+        max-height: 200px; /* Adjust this value based on the content */
+      }
+
+      .icon {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+        background-color: #c0441e;
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      @media (max-width: 1024px) {
+        .faq-column {
+          width: 48%; /* Two columns on tablets */
+        }
+      }
+
+      @media (max-width: 768px) {
+        .faq-column {
+          width: 100%; /* Full width for mobile */
+        }
+        .faq-container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="faq-container">
+      <div class="faq-column">
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <!-- Repeat the faq-item div four more times for 5 items per column -->
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-column">
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <!-- Repeat the faq-item div four more times for 5 items per column -->
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-column">
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <!-- Repeat the faq-item div four more times for 5 items per column -->
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Braces
+            <i class="icon fas fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <p><i class="fa-solid fa-play"></i> Madison</p>
+            <p><i class="fa-solid fa-play"></i> Lockerroom Shoulder</p>
+            <p><i class="fa-solid fa-play"></i> Grain Strap</p>
+            <p><i class="fa-solid fa-play"></i> Patellia Strap</p>
+            <p><i class="fa-solid fa-play"></i> Elbow Strap</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const isActive = question.parentElement.classList.contains("active");
+
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            item.classList.remove("active");
+            item.querySelector(".icon").classList.remove("fa-minus");
+            item.querySelector(".icon").classList.add("fa-plus");
+          });
+
+          if (!isActive) {
+            question.parentElement.classList.add("active");
+            question.querySelector(".icon").classList.remove("fa-plus");
+            question.querySelector(".icon").classList.add("fa-minus");
+          } else {
+            question.querySelector(".icon").classList.remove("fa-minus");
+            question.querySelector(".icon").classList.add("fa-plus");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

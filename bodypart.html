@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Slider</title>
+    <!-- Include Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .slider {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #433131;
+        position: relative;
+      }
+      .slider-title {
+        color: white;
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+      .slider-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 20px 70px;
+        position: absolute;
+        top: 10%;
+        z-index: 1;
+      }
+      .slider-top h1 {
+        color: white;
+        margin: 0;
+      }
+      .slider-top button {
+        background-color: #737373;
+        color: white;
+        margin: 0;
+        border: 1px solid #737373;
+        border-radius: 5px;
+        padding: 5px 15px;
+        text-transform: capitalize;
+        cursor: pointer;
+      }
+      .slider-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        width: 100%;
+      }
+      .video-item {
+        width: 30%;
+        margin: 0 5px;
+        text-align: center;
+        position: relative;
+      }
+      .video-item video {
+        width: 100%;
+        border: 5px solid #737373;
+      }
+      .video-title {
+        color: white;
+        margin-top: 5px;
+        text-align: start;
+        font-size: 26px;
+      }
+      .slider-buttons {
+        position: absolute;
+        bottom: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 70px;
+        z-index: 1;
+      }
+      .slider-buttons button {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: white;
+        font-size: 2em;
+        padding: 10px;
+        cursor: pointer;
+      }
+      @media (max-width: 768px) {
+        .video-item {
+          width: 90%;
+          margin: 10px 0;
+        }
+        .slider-container {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider">
+      <div class="slider-top">
+        <h1>Video’s targeting the neck</h1>
+        <button onclick="toggleFullscreen()">View All</button>
+      </div>
+      <div class="slider-container" id="slider-container">
+        <!-- Videos will be dynamically inserted here -->
+      </div>
+      <div class="slider-buttons">
+        <button class="prev-button" onclick="prevSlide()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="next-button" onclick="nextSlide()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const slides = [
+        {
+          video: "video1.mp4",
+          title: "Video Title 1",
+        },
+        {
+          video: "video2.mp4",
+          title: "Video Title 2",
+        },
+        {
+          video: "video3.mp4",
+          title: "Video Title 3",
+        },
+        {
+          video: "video4.mp4",
+          title: "Video Title 4",
+        },
+        {
+          video: "video5.mp4",
+          title: "Video Title 5",
+        },
+        {
+          video: "video6.mp4",
+          title: "Video Title 6",
+        },
+      ];
+
+      let currentSlide = 0;
+
+      function showSlides() {
+        const container = document.getElementById("slider-container");
+        container.innerHTML = "";
+
+        for (let i = 0; i < 3; i++) {
+          const slideIndex = (currentSlide + i) % slides.length;
+          const videoItem = document.createElement("div");
+          videoItem.className = "video-item";
+
+          const videoElement = document.createElement("video");
+          videoElement.src = slides[slideIndex].video;
+          videoElement.controls = true;
+          videoItem.appendChild(videoElement);
+
+          const titleElement = document.createElement("div");
+          titleElement.className = "video-title";
+          titleElement.innerText = slides[slideIndex].title;
+          videoItem.appendChild(titleElement);
+
+          container.appendChild(videoItem);
+        }
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 3) % slides.length;
+        showSlides();
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 3 + slides.length) % slides.length;
+        showSlides();
+      }
+
+      function toggleFullscreen() {
+        const slider = document.querySelector(".slider");
+        if (!document.fullscreenElement) {
+          slider.requestFullscreen().catch((err) => {
+            alert(
+              `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+            );
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // Initialize the first set of slides
+      showSlides();
+    </script>
+  </body>
+</html>

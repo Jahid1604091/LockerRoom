@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Human Image Tabs with Clickable Hotspots</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #433131;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      .tabs-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .tabs-box {
+        background-color: #fff; /* Box background color */
+        border: 1px solid #ccc;
+        border-radius: 20px; /* Rounded corners for the box */
+        display: flex;
+        overflow: hidden; /* Hide overflow from the vertical line */
+      }
+
+      .tabs {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+      }
+
+      .tabs li {
+        margin: 0;
+        position: relative;
+      }
+
+      .tabs button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1; /* Ensure tab links are above line */
+        color: #333; /* Text color */
+      }
+
+      .tabs button:focus {
+        outline: none;
+      }
+
+      .tabs button.active {
+        background-color: gray; /* Active tab background color */
+        color: white; /* Active tab text color */
+      }
+
+      .tabs button:not(.active) {
+        background-color: black; /* Inactive tab background color */
+        color: white; /* Inactive tab text color */
+      }
+
+      .tabs-line {
+        position: relative;
+        width: 1px;
+        background-color: #ccc; /* Vertical line color */
+        z-index: 0; /* Behind the tabs */
+      }
+
+      .tab-content {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        text-align: center;
+      }
+
+      .tab-pane {
+        position: absolute;
+        opacity: 0;
+        transition: all 0.3s ease;
+        transform: scale(0.5);
+        z-index: 0;
+        pointer-events: none; /* Disable pointer events for inactive tabs */
+      }
+
+      .tab-pane.active {
+        position: relative;
+        opacity: 1;
+        transform: scale(1);
+        z-index: 1;
+        pointer-events: auto; /* Enable pointer events for the active tab */
+      }
+
+      .tab-pane.left {
+        left: -100%;
+        opacity: 0.5;
+      }
+
+      .tab-pane.right {
+        right: -100%;
+        opacity: 0.5;
+      }
+      .tab-pane img {
+        max-width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        position: relative;
+      }
+
+      .hotspot {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #f05a28;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+        z-index: 10; /* Ensures hotspots appear above image */
+        box-shadow: 0 0 10px #f05a28, 0 0 20px #f05a28, 0 0 30px #f05a28,
+          0 0 40px #f05a28;
+      }
+
+      .line {
+        background-color: #737373;
+        width: 150px;
+        height: 2px;
+        position: absolute;
+        z-index: 9999;
+        transition: opacity 0.3s ease-in-out;
+        display: none;
+        opacity: 0;
+        transform: rotate(45deg);
+      }
+      .hover-content {
+        position: absolute;
+        padding: 10px;
+        background-color: #181818;
+        border: 1px solid #737373;
+        border-radius: 5px;
+        display: none;
+        z-index: 9999;
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+        color: #aeaeae;
+        width: 320px;
+        max-width: 320px;
+        max-height: 187px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: start;
+        padding: 15px;
+      }
+      .hover-content h3 {
+        color: white;
+        padding: 10px 0;
+      }
+      .hover-content button {
+        color: white;
+        padding: 6px 12px;
+        background-color: #f05a28;
+        border-radius: 5px;
+        margin: 10px 0;
+        outline: none;
+        border: 1px solid #f05a28;
+      }
+
+      .hover-content .close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #fff;
+      }
+
+      .hotspot.active + .hover-content {
+        display: block;
+        opacity: 1; /* Show content with smooth opacity transition */
+        transform: translateX(-100%); /* Move the content to the left */
+      }
+      .hover-content.active + .line {
+        display: block;
+        opacity: 1; /* Show content with smooth opacity transition */
+        transform: translateX(-100%); /* Move the content to the left */
+      }
+
+      /* Rounded corners for first and last tabs */
+      .tabs li:first-child button {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+      }
+
+      .tabs li:last-child button {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .hover-content {
+          width: 100%;
+          /* max-width: 90%; */
+          top: auto;
+          left: auto;
+          transform: translateX(0);
+        }
+
+        .line {
+          width: 100%;
+          height: 1px;
+          transform: rotate(0);
+          top: auto;
+          left: 0;
+        }
+
+        .tab-pane.left,
+        .tab-pane.right {
+          left: 0;
+          right: 0;
+          opacity: 0;
+        }
+
+        .tab-pane img {
+          max-height: 50vh;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .tabs button {
+          padding: 8px;
+          font-size: 12px;
+        }
+
+        .hotspot {
+          width: 15px;
+          height: 15px;
+        }
+
+        .hover-content {
+          font-size: 14px;
+          padding: 10px;
+          left: 0;
+          right: 0;
+        }
+        .hotspot.active + .hover-content {
+          display: block;
+          opacity: 1; /* Show content with smooth opacity transition */
+          transform: translateX(0);
+          transform: translateY(0);
+        }
+        .hover-content.active + .line {
+          display: none;
+          opacity: 0; /* Show content with smooth opacity transition */
+          transform: translateX(-100%); /* Move the content to the left */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <small>Body aspect:</small>
+      <!-- Tabs -->
+      <ul class="tabs">
+        <li>
+          <button class="tab-link active" data-tab="front">Front</button>
+        </li>
+        <li>
+          <button class="tab-link" data-tab="back">Back</button>
+        </li>
+        <li>
+          <button class="tab-link" data-tab="side">Side</button>
+        </li>
+      </ul>
+
+      <p>Select area of interest below:</p>
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Front Tab Pane -->
+        <div id="front" class="tab-pane active">
+          <img src="/images/bodymap-front.png" alt="Front View" />
+
+          <div
+            class="hotspot"
+            style="top: 20%; left: 35%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 5%; left: -20%">
+            <h3>Pecs A</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 20%; top: 20%"></div>
+
+          <!-- pecs b -->
+          <div
+            class="hotspot"
+            style="top: 28%; left: 63%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 15%; left: 10%">
+            <h3>Pecs B</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: -10%; top: 30%"></div>
+
+          <!-- pecs c -->
+          <div
+            class="hotspot"
+            style="top: 35%; left: 20%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 25%; left: -35%">
+            <h3>Pecs C</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 32%; top: 37%"></div>
+
+          <!-- pecs D -->
+          <div
+            class="hotspot"
+            style="top: 44%; left: 42%"
+            data-content="Heart"
+          ></div>
+
+          <div class="hover-content" style="top: 38%; left: -8%">
+            <h3>Pecs D</h3>
+            <span class="close">&times;</span>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 10%; top: 45%"></div>
+
+          <!-- pecs E -->
+          <div
+            class="hotspot"
+            style="top: 50%; left: 60%"
+            data-content="Heart"
+          ></div>
+
+          <div class="hover-content" style="top: 45%; left: 10%">
+            <h3>Pecs E</h3>
+            <span class="close">&times;</span>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: -10%; top: 52%"></div>
+
+          <!-- pecs F -->
+          <div
+            class="hotspot"
+            style="top: 55%; left: 45%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 45%; left: 0">
+            <h3>Pecs F</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 0; top: 57%"></div>
+
+          <!-- pecs G -->
+          <div
+            class="hotspot"
+            style="top: 60%; left: 30%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 50%; left: -15%">
+            <h3>Pecs G</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 15%; top: 62%"></div>
+
+          <!-- pecs H -->
+          <div
+            class="hotspot"
+            style="top: 70%; left: 30%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 55%; left: -15%">
+            <h3>Pecs H</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 15%; top: 72%"></div>
+
+          <!-- pecs X -->
+          <div
+            class="hotspot"
+            style="top: 90%; left: 25%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 70%; left: -20%">
+            <h3>Pecs X</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 20%; top: 93%"></div>
+        </div>
+
+        <!-- Back Tab Pane -->
+        <div id="back" class="tab-pane">
+          <img src="/images/bodymap-back.png" alt="Back View" />
+          <div
+            class="hotspot"
+            style="top: 40%; left: 50%"
+            data-content="Heart"
+          ></div>
+
+          <div class="hover-content" style="top: 35%; left: 0">
+            <h3>Pecs A</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 0; top: 42%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 60%; left: 50%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 55%; left: 0">
+            <h3>Pecs B</h3>
+            <span class="close">&times;</span>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 0; top: 62%"></div>
+          <div
+            class="hotspot"
+            style="top: 30%; left: 30%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 25%; left: -20%">
+            <h3>Pecs C</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="right: 20%; top: 32%"></div>
+        </div>
+
+        <!-- Side Tab Pane -->
+        <div id="side" class="tab-pane">
+          <img src="/images/bodymap-side.png" alt="Side View" />
+          <div
+            class="hotspot"
+            style="top: 40%; left: 50%"
+            data-content="Heart"
+          ></div>
+
+          <div class="hover-content" style="top: 35%; left: -90%">
+            <h3>Pecs A</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 45%; top: 42%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 60%; left: 50%"
+            data-content="Stomach"
+          ></div>
+          <div class="hover-content" style="top: 55%; left: -90%">
+            <h3>Pecs B</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consec` `1tetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 45%; top: 62%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 30%; left: 30%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 25%; left: -100%">
+            <h3>Pecs C</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 32%; top: 32%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 10%; left: 20%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 0; left: -100%">
+            <h3>Pecs D</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 32%; top: 11%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 15%; left: 15%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 8%; left: -100%">
+            <h3>Pecs E</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 32%; top: 17%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 20%; left: 10%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 15%; left: -100%">
+            <h3>Pecs F</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 32%; top: 22%"></div>
+
+          <div
+            class="hotspot"
+            style="top: 50%; left: 12%"
+            data-content="Lungs"
+          ></div>
+          <div class="hover-content" style="top: 30%; left: -100%">
+            <h3>Pecs G</h3>
+            <span class="close">&times;</span>
+
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi
+              dolore fugiat maiores mollitia consectetur tempore pariatur
+              molestiae ipsa ullam laborum.
+            </p>
+            <button>View Page</button>
+          </div>
+          <div class="line" style="left: 32%; top: 52%"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript for hotspot functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const hotspots = document.querySelectorAll(".hotspot");
+        const hoverContents = document.querySelectorAll(".hover-content");
+        const closeButtons = document.querySelectorAll(".close");
+        hotspots.forEach((hotspot, index) => {
+          hotspot.addEventListener("click", () => {
+            // Deactivate all hotspots and hover contents
+            hotspots.forEach((otherHotspot, otherIndex) => {
+              if (otherIndex !== index) {
+                otherHotspot.classList.remove("active");
+                hoverContents[otherIndex].classList.remove("active");
+              }
+            });
+
+            // Toggle active class on clicked hotspot and corresponding hover content
+            hotspot.classList.toggle("active");
+            hoverContents[index].classList.toggle("active");
+          });
+        });
+
+        closeButtons.forEach((close, index) => {
+          close.addEventListener("click", (event) => {
+            // Prevent event bubbling up to hotspot click listener
+            event.stopPropagation();
+
+            hotspots[index].classList.remove("active");
+            hoverContents[index].classList.remove("active");
+          });
+        });
+      });
+
+      // JavaScript for tabs functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        // JavaScript for tabs functionality
+        const tabs = document.querySelectorAll(".tab-link");
+        const tabContents = document.querySelectorAll(".tab-pane");
+
+        function updateTabPositions(activeIndex) {
+          tabContents.forEach((tabContent, index) => {
+            tabContent.classList.remove("active", "left", "right");
+
+            if (index === activeIndex) {
+              tabContent.classList.add("active");
+            } else if ((index + 1) % 3 === activeIndex) {
+              tabContent.classList.add("left");
+            } else if ((index + 2) % 3 === activeIndex) {
+              tabContent.classList.add("right");
+            }
+            else {
+              tabContent.classList.add("right");
+            }
+          });
+        }
+
+        tabs.forEach((tab, tabIndex) => {
+          tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            updateTabPositions(tabIndex);
+          });
+        });
+
+        // Initialize the first tab as active
+        updateTabPositions(0);
+      });
+    </script>
+  </body>
+</html>
